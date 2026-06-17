@@ -27,8 +27,13 @@ jobs:
             exit 1
           fi
           rm -rf /tmp/jaelin-site
+          mkdir -p /tmp/jaelin-site
           unzip -q jaelin-jewelry-demo.zip -d /tmp/jaelin-site
-          cp -R /tmp/jaelin-site/jaelin-jewelry-demo/. .
+          if [ -d /tmp/jaelin-site/jaelin-jewelry-demo ]; then
+            cp -R /tmp/jaelin-site/jaelin-jewelry-demo/. .
+          else
+            cp -R /tmp/jaelin-site/. .
+          fi
           rm -f design-qa.md
           git status --short
 
@@ -36,6 +41,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html collection.html new-arrivals.html gift-guide.html about.html contact.html site-pages.css site-pages.js assets
+          git add index.html collection.html new-arrivals.html gift-guide.html about.html contact.html site-pages.css site-pages.js product-data.js assets
           git commit -m "Extract Jaelin Jewelry static site" || exit 0
           git push
